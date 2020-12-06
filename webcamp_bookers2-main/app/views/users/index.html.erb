@@ -1,0 +1,74 @@
+<% if @newbook.errors.any? %>
+<%= @newbook.errors.count %>errors prohibited this obj from being saved:
+<% @newbook.errors.full_messages.each do |message| %>
+<%= message %>
+<% end %>
+<% end %>
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <div class="col-md-3">
+<h3>User info</h3>
+<%=attachment_image_tag current_user, :profile_image, :fill, 60, 60, fot: "jpg", fallback: "no_image.jpg" %>
+<table class="table">
+  <tbody>
+  <tr></tr>
+  <tr>
+  <th>name</th>
+  <th><%= current_user.name %></th>
+  </tr>
+  <tr>
+<th>introduction</th>
+<th><%= current_user.introduction %></th>
+  <tr>
+  <th>follows</th>
+  <th><%= link_to following_user_path(current_user.id) do %>
+    <%= current_user.following.count %>
+     <% end %></th>
+  </tr>
+  <tr>
+    <th>followers</th>
+    <th><%= link_to followers_user_path(current_user.id) do %>
+     <%= current_user.followers.count %>
+     <% end %></th>
+  </tr>
+</tr>
+</tbody>
+</table>
+<div class="row">
+<%= link_to edit_user_path(current_user.id), class:"btn btn-outline-secondary btn-block" do %>
+<i class="fas fa-user-cog"></i>
+<% end %>
+</div>
+
+<h3>New book</h3>
+<%= render "books/newbook", book: @newbook %>
+</div>
+<div class="col-md-8 offset-md-1">
+<h3>Users</h3>
+  <table class="table table-striped table-inverse">
+    <thead>
+      <tr>
+      <th>image</th>
+      <th>name</th>
+      <th></th>
+      <th></th>
+      </tr>
+    </thead>
+    <tbody>
+<% @users.each do |user| %>
+<tr>
+<td><%=attachment_image_tag user, :profile_image, fot: "jpg", fallback: "no_image.jpg", size: "40x40" %></td>
+<td><%= user.name %></td>
+<% if current_user.following?(user) %>
+<td><%= link_to "フォロー外す", relationships_path(followed_id: user.id), method: :delete %></td>
+<% else %>
+<td><%= link_to "フォロー", relationships_path(followed_id: user.id), method: :post %>
+<% end %></td>
+<td><%= link_to "Show", user_path(user.id) %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+</div>
+</div>
+</div>
