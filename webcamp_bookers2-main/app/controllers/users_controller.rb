@@ -19,8 +19,9 @@ class UsersController < ApplicationController
 
 
   def show
-    @newbook =Book.new
     @user =User.find(params[:id])
+    NoticeMailer.greeting(@user).deliver_now
+    @newbook =Book.new
     @books =@user.books
   end
 

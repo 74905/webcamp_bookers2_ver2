@@ -73,6 +73,7 @@
     </div>
     </div>
     </nav>
+    <% if user_signed_in? %>
     <div class="row justify-content-center">
     <%= form_with url: searchs_path, method: :get, local: true do |f| %>
     <%#= f.select "option", options_for_select[["User", "1"], ["Book", "2"]] %>
@@ -82,6 +83,7 @@
     <%= f.submit '検索' %>
     <% end %>
     </div>
+    <% end %>
     </header>
     <% if notice %>
 　　<p><%= notice %></p>
